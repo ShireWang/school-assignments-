@@ -1,0 +1,225 @@
+1.	（4.11）输入一个不多于5位数的正整数，要求：（1）求出它是几位数；（2）分别打印出每一位数；（3）按逆序打印出各位数，如原数为123，则应输出321.
+ #include <iostream>
+#include <math.h>
+using namespace std;
+
+int main()
+{
+	int m,n,a,b;
+	cout << "输入一个不多于5位的正整数:";
+	cin >> n;
+	a = (int)log10(n) + 1;
+	cout << "该数为" << a << "位数" << endl;
+	for ( m=n; a > 0; a--)
+	{
+		b = int(m / pow(10, a-1));
+		cout << b << endl;
+		m = m -b*pow(10, a-1);
+	}
+	while (n > 0)
+	{
+		cout << n % 10;
+		n = n / 10;
+	}
+}
+**************************************************************************************************************************
+2.	(4.27)编写一个程序打印如图4-19（94页）的图案。所有*应在一条cout<<’*’的语句中打印（使*靠在一起）。提示：最后两个图案要求每一行以适当空格数开始。附加部分：将这四个问题的代码组合在一个程序中，利用嵌套for循环使4个图案并排打印。
+分别打印
+ #include <iostream>
+using namespace std;
+
+int main()
+{
+	int i, j;
+	for (i = 1; i <= 10; i++)
+	{
+		for (j = 1; j <= 10; j++)
+		{
+			(j <= i) ? cout << "*" : cout << " ";
+		}
+		cout << endl;
+	}
+
+	   cout << endl;
+	for (i = 1; i <= 10; i++)
+	{
+		for (j = 1; j <= 10; j++)
+		{
+			(j + i <= 11) ? cout << "*" : cout << " ";
+		}
+		cout << endl;
+	}
+		cout << endl;
+		
+			for (i = 1; i <= 10; i++)
+			{for (j = 10; j >= 1; j--)
+				{
+					(i + j <= 11) ? cout << "*" : cout << " ";	
+				}
+				cout << endl;
+			}
+		cout << endl;
+		
+			for (i = 1; i <= 10; i++)
+			{
+				for (j = 1; j <= 10; j++)
+				{
+				(i + j >= 11) ? cout << "*" : cout << " ";
+				}
+			cout << endl;
+			}
+}
+ 
+并排打印
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int i, j;
+	for (i = 1; i <=10; i++)
+	{
+		for (j = 1; j <= 10; j++)
+		{
+			(j <= i) ? cout << "*" : cout << " ";
+		}
+		cout << "\t";
+		for (j = 1; j <= 10; j++)
+		{
+			(j + i <= 11) ? cout << "*" : cout << " ";
+		}
+		cout << "\t";
+		for (j = 10; j >= 1; j--)
+		{
+			(i + j <= 11) ? cout << "*" : cout << " ";
+		}
+		cout << "\t";
+		for (j = 1; j <=10; j++)
+		{
+			(i+j>=11) ? cout << "*" : cout << " ";
+		}
+		cout << endl;
+	}
+   
+}
+ 
+***********************************************************************************************************************************
+3.	(4.29)设用100元买100支笔，其中钢笔每支3元，圆珠笔每支2元，铅笔每支0.5元，问钢笔，圆珠笔，铅笔可以各买多少支（每种笔至少一支）？（课本有提示）
+ 
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int i, j, k;    //i,j,k分别为钢笔圆珠笔铅笔数
+	for (i = 1; i <= 100; i++)
+		for (j = 1; j <= 100; j++)
+		{
+			k = 100 - i - j;
+			if (3 * i + 2 * j + 0.5 * k == 100)
+				cout << "钢笔数为:" << i << endl << "圆珠笔;" << j << endl << "铅笔;" << k << endl;
+		}
+	
+}
+***************************************************************************************************************
+2.（5.6）设计一个函数，实现把输入的一个十进制数转换为十二进制数。
+#include <iostream>
+#include <stdlib.h>
+
+int main()
+{
+	int n;
+	char s[32];
+	printf("输入十进制数:");
+	scanf_s("%d", &n);
+	_itoa_s(n, s, 12);
+	printf("其十二进制为:%s", s);
+
+}
+***************************************************************************************************************
+3.（5.9）设计一个程序，用重载函数实现计算两个数的平方和，分别实现整形和浮点型的计算。
+#include <iostream>
+using namespace std;
+
+int square(int x, int y)
+{
+	return x * x + y * y;
+}
+double square(double x, double y)
+{
+	return x * x + y * y;
+}
+int main()
+{
+	int x1, y1;
+	double x2, y2;
+	cout << "输入x1,y1,x2,y2:" << endl;
+	cin >> x1 >> y1 >> x2 >> y2;
+	cout << endl;
+	cout << "The square of integer:" << square(x1, y1) << endl;
+	cout << "The square of double:" << square(x2, y2) << endl;
+}
+***********************************************************************************************************************
+4.（5.15）根据斐波那契数列的计算公式，用递归的方法计算该数列。
+#include <iostream>
+int f(int n)
+{
+	if (n == 1 || n == 2)
+		return 1;
+	else
+		return f(n - 1) + f(n - 2);
+
+}
+int main()
+{
+	int n;
+	printf("输入所求项数:");
+	scanf_s("%d", &n);
+	printf("%d", f(n));
+}
+************************************************************************************************************
+6.13编写一个计算矩阵主负对角线元素和的函数。
+    #include <iostream>
+#include <cassert>
+using namespace std;
+int m, n;//m代表行数，n为列数
+	
+void f1(int**& a)
+{
+	
+	a = new int* [m * sizeof(int)];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new int[n * sizeof(int)];
+	}
+	assert(a != 0);
+}
+void f2(int** a)
+{
+	int sum = 0;
+	for(int i=0;i<m;i++)
+		for (int j = 0; j < n; j++)
+		{
+			cin >> a[i][j];
+		}
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			if ((n - 1) * i - (m - 1) * j == 0 || (m - 1) * j +(n - 1) * i - (m - 1) * (n - 1) == 0)
+				sum = sum + a[i][j];
+		}
+	cout << sum;  
+}
+void f3(int** a)
+{
+	free(a[0]);
+	free(a);
+}
+int main()
+{
+	cin >> m >> n;
+	int** a = NULL;
+	f1(a);
+	f2(a);
+	f3(a);
+}
