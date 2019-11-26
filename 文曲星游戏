@@ -1,0 +1,98 @@
+猜数字（文曲星游戏） 电脑随机生成一个 0~9999 之间的整数，若为 23，则记为 0023。玩家去猜， 电脑将对玩家的答案做个评价，然后玩家再按电脑的评价重新猜，一共 8 次机会， 猜对为赢。 比如：
+电脑随机生成 7859，若玩家第一次输入：1234，程序返回 0A0B，A代表数 字和位置都猜对，B代表数字猜对，但位置不对。 若玩家第二次输入：5678，则返回 0A2B，因为 78 都是原整数中的，但是
+位置不对。 20若玩家第三次输入：0896，则返回 1A1B…… 依次，直至玩家输入 7859，返回 4A0B 并终止程序。 记住，只有 8 次机会哦
+
+#include<iostream>
+
+#define MaxIndex 10000
+using namespace std;
+
+
+//产生随机数
+int Random()
+{
+    srand((unsigned)time(NULL));
+    int index = (int)rand() % MaxIndex;
+    return index;
+}
+
+
+//赋值
+void fuzhi(int *A,int x) 
+{
+    for (int i = 0; i < 4; i++)
+    {
+        int m = pow(10, 3 - i);
+        A[i] = x / m;
+        x = x%m;
+    }
+}
+
+
+
+//转换char到int
+void Change(char *A, int *B)
+{
+    for (int i = 0; i < 4; i++) 
+    {
+        *(B + i) = (int)(*(A + i))-48;
+    }
+}
+//判断答案
+int judge(int *A, int *B)
+{
+    int a = 0, b = 0;
+    for (int i = 0; i < 4; i++) 
+    {
+        if (*(A + i) == *(B + i)) 
+        {
+            a++;
+        }
+        else 
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (*(A + i) == *(B + j)) 
+                {
+                    b++;
+                }
+            }
+        }
+     }
+    cout << a << "A" << b << "B" << endl;
+    return a - b;
+
+}
+int main() 
+{
+    int standard[4], index,answer[4];
+    char B[4];
+    index = Random();
+    fuzhi(standard, index);
+  
+
+    for (int i = 0; i < 8; i++) 
+    {
+        cout << "你共有八次机会，还有"<<8-i<<"次机会";
+        cout << "请输入你的答案：";
+        for (int j = 0; j < 4; j++) 
+        {
+            cin >> B[j];
+        }
+        Change(B, answer);
+        if (judge(standard, answer) == 4)
+        {
+            cout << "恭喜你答对了！";
+                break;
+        }
+        else 
+        {
+            cout << "抱歉，你的答案错误！";
+        }
+
+    }
+    cout << "程序运行结束\a";
+    system("pause");
+    cout << index;
+    return 0;
+}
