@@ -44,7 +44,7 @@ int judge(int *A, int *B)
     int a = 0, b = 0;
     for (int i = 0; i < 4; i++) 
     {
-        if (*(A + i) == *(B + i)) 
+        if (*(B + i) == *(A + i)) 
         {
             a++;
         }
@@ -52,9 +52,10 @@ int judge(int *A, int *B)
         {
             for (int j = 0; j < 4; j++)
             {
-                if (*(A + i) == *(B + j)) 
+                if (*(B + i) == *(A + j)) 
                 {
                     b++;
+                    break;
                 }
             }
         }
@@ -96,3 +97,90 @@ int main()
     cout << index;
     return 0;
 }
+********************************************
+version 2:
+
+#include<iostream>
+#include<time.h>
+using namespace std;
+//生成随机数
+int random()
+{
+	srand((unsigned)time(NULL));
+	int Random=(int)rand() % 10000;
+	return Random;
+}
+//将随机数的每位数字倒序存入数组
+void f1(int m,int *p)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		p[i] = m % 10;
+		m = m / 10;
+	}
+}
+//将输入数的每位数字存入数组
+void f2(int n, int* q)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		q[i] = n % 10;
+		n = n / 10;
+	}
+}
+
+//判断AB的值
+void judge(int a[],int b[],int &A,int &B)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (a[i] == b[i])
+		{
+			A++;
+		}
+		else
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				if (b[i] == a[j])
+					B++;
+				break;
+			}
+		}
+	}
+}
+
+int main()
+{
+	int m = random();                    //生成随机数
+	int n;                               //n代表输入的数字
+	cout << "文曲星游戏（猜数字）" << endl;
+	cout << "输入1~9999的数字（PS：例如输入23时，请输入0023）" << endl;
+	int a[4],b[4];
+	int* p = a, * q = b;
+	f1(m, p);
+
+	for (int i = 0; i < 8; i++)
+	{
+		cout << "你共有8次机会，还有" << 8 - i << "次机会" << endl;
+		cin >> n;
+		f2(n, q);
+		int A = 0, B = 0;
+		judge(a, b, A,B);
+		if (A == 4 && B == 4)
+		{
+			cout << "成功";
+			break;
+		}
+		else
+		{
+			cout << A << 'A' << B << 'B';
+			cout << "答案错误" << endl;
+		}
+	}
+	cout << "正确答案为：" << m << endl;
+}
+
+
+
+
